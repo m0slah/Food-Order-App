@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './HeaderCardButton.module.css'
-import CartIcon from '../Card/CardIcon'
+import CartIcon from '../Cart/CartIcon'
 
 function HeaderCardButton() {
   return (
