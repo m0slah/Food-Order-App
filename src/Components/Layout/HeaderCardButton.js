@@ -4,7 +4,7 @@ import CartIcon from "../Cart/CartIcon";
 import CartContext from "../../Store/Cart-context";
 import { useContext } from "react";
 
-function HeaderCardButton(props) {
+const HeaderCartButton = (props) => {
   const cartCtx = useContext(CartContext);
 
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
@@ -20,6 +20,6 @@ function HeaderCardButton(props) {
       <span className={classes.badge}>{numberOfCartItems}</span>
     </button>
   );
-}
+};
 
-export default HeaderCardButton;
+export default HeaderCartButton;
