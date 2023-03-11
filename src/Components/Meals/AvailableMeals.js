@@ -1,37 +1,40 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Card from "../UI/Card";
 import classes from "./AvailabeMeals.module.css";
 import MealItem from "./MealItem/MealItem";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
-
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((meal) => (
+  const [mealData, setMealData] = useState([]);
+  
+  const fetchMealsHandler = useCallback(async () => {
+    try {
+      const response = await fetch(
+        "https://food-order-app-266fd-default-rtdb.firebaseio.com/meals.json"
+      );
+      const responnseData = await response.json();
+
+      const loadedMeals = [];
+
+      for (const key in responnseData) {
+        loadedMeals.push({
+          id: key,
+          name: responnseData[key].name,
+          description: responnseData[key].description,
+          price: responnseData[key].price,
+        });
+      }
+
+      setMealData(loadedMeals);
+    } catch (error) {
+      alert("errorr");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchMealsHandler();
+  }, [fetchMealsHandler]);
+
+  const mealsList = mealData.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
