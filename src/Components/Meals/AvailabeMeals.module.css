@@ -10,6 +10,11 @@
     margin: 0;
     padding: 0;
   }
+
+  .error{
+    color: red;
+    font-weight: 500;
+  }
   
   @keyframes meals-appear {
     from {
