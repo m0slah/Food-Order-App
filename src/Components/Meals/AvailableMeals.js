@@ -5,8 +5,11 @@ import MealItem from "./MealItem/MealItem";
 
 const AvailableMeals = () => {
   const [mealData, setMealData] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const fetchMealsHandler = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://food-order-app-266fd-default-rtdb.firebaseio.com/meals.json"
@@ -25,9 +28,11 @@ const AvailableMeals = () => {
       }
 
       setMealData(loadedMeals);
+    
     } catch (error) {
-      alert("errorr");
+      setError(error.message);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -44,10 +49,24 @@ const AvailableMeals = () => {
     />
   ));
 
+  let content = <p>Found no Meal</p>;
+
+  if (mealData.length > 0) {
+    content = <ul>{mealsList}</ul>;
+  }
+
+  if (error) {
+    content = <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>loading...</p>;
+  }
+
   return (
     <section className={classes.meals}>
       <Card>
-        <ul>{mealsList}</ul>
+        <section>{content}</section>
       </Card>
     </section>
   );
